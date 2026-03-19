@@ -2,13 +2,14 @@
 sidebar_position: 2
 title: Changelog
 sidebar_label: Changelog
+hide_table_of_contents: true
 ---
 
 import Timeline from '@site/src/components/Timeline';
-import { changelogEntries } from '@site/src/components/Timeline/changelogData';
+import { eras } from '@site/src/components/Timeline/changelogData';
 
-What changed and when -- reverse-chronological history of MDD HQ development.
+MDD HQ was built from scratch in 26 days -- from an empty directory on February 22, 2026 to a production dashboard with 336 commits, 1,831 tests, and a 100/100 quality score. This is the full story.
 
-<Timeline data={changelogEntries} />
+<Timeline data={eras} />
 
 *To add entries, edit `src/components/Timeline/changelogData.tsx`.*

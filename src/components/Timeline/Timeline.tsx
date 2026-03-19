@@ -1,38 +1,85 @@
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import type { TimelineProps } from './types';
+import TrailMap from './TrailMap';
+import EraCard from './EraCard';
+import { projectStats } from './changelogData';
+
+function JourneyHeader(): ReactNode {
+  return (
+    <div className="journey-header">
+      <h2 className="journey-header__title">The Journey</h2>
+      <p className="journey-header__subtitle">
+        From empty directory to production dashboard in {projectStats.totalDays} days
+      </p>
+      <div className="journey-header__stats">
+        <div className="journey-header__stat">
+          <span className="journey-header__stat-value">{projectStats.totalCommits}</span>
+          <span className="journey-header__stat-label">Commits</span>
+        </div>
+        <div className="journey-header__stat">
+          <span className="journey-header__stat-value">{projectStats.totalDays}</span>
+          <span className="journey-header__stat-label">Days</span>
+        </div>
+        <div className="journey-header__stat">
+          <span className="journey-header__stat-value">{projectStats.totalEras}</span>
+          <span className="journey-header__stat-label">Eras</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ActiveEraTracker({ data, onActiveChange }: TimelineProps & { onActiveChange: (id: string | null) => void }) {
+  useEffect(() => {
+    const eraElements = data.map((era) => document.getElementById(`era-${era.id}`));
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const eraId = entry.target.id.replace('era-', '');
+            onActiveChange(eraId);
+            break;
+          }
+        }
+      },
+      { rootMargin: '-20% 0px -60% 0px' },
+    );
+
+    eraElements.forEach((el) => { if (el) observer.observe(el); });
+    return () => observer.disconnect();
+  }, [data, onActiveChange]);
+
+  return null;
+}
 
 export default function Timeline({ data }: TimelineProps): ReactNode {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [activeEraId, setActiveEraId] = useState<string | null>(data[0]?.id ?? null);
 
   return (
-    <div className="timeline" ref={containerRef}>
-      {/* Scroll-animated progress line -- client only */}
-      <div className="timeline__line-container">
-        <BrowserOnly fallback={<div className="timeline__static-track" />}>
-          {() => {
-            const TimelineProgress =
-              require('./TimelineProgress').default;
-            return <TimelineProgress containerRef={containerRef} />;
-          }}
-        </BrowserOnly>
-      </div>
+    <div className="timeline-journal">
+      <BrowserOnly fallback={null}>
+        {() => <ActiveEraTracker data={data} onActiveChange={setActiveEraId} />}
+      </BrowserOnly>
 
-      {data.map((entry, idx) => (
-        <div className="timeline__entry" key={idx}>
-          <div className="timeline__dot-col">
-            <div className="timeline__dot" />
-          </div>
-          <div className="timeline__title-col">
-            <h3 className="timeline__title">{entry.title}</h3>
-            {entry.subtitle && (
-              <p className="timeline__subtitle">{entry.subtitle}</p>
+      <TrailMap eras={data} activeEraId={activeEraId} />
+
+      <JourneyHeader />
+
+      <div className="era-list">
+        {data.map((era, idx) => (
+          <div key={era.id}>
+            {idx > 0 && (
+              <div className="era-connector">
+                <div className="era-connector__line" />
+              </div>
             )}
+            <EraCard era={era} index={idx} />
           </div>
-          <div className="timeline__content">{entry.content}</div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

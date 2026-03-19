@@ -1,2 +1,2 @@
 export { default } from './Timeline';
-export type { TimelineEntry, TimelineProps } from './types';
+export type { TimelineEra, TimelineProps, ChangeCategory, ChangeItem, EraStats } from './types';
