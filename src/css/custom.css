@@ -1026,10 +1026,11 @@
 }
 
 .trail-map__label {
-  font-family: 'Libre Baskerville', serif;
-  font-size: 0.7rem;
-  font-style: italic;
-  letter-spacing: 0.03em;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 [data-theme='dark'] .trail-map__label {
@@ -1237,18 +1238,18 @@
 }
 
 .era-card__subtitle {
-  font-family: 'Libre Baskerville', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.85rem;
-  font-style: italic;
+  font-weight: 500;
   margin: 0;
 }
 
 [data-theme='dark'] .era-card__subtitle {
-  color: #C5D9E8;
+  color: #D4704E;
 }
 
 [data-theme='light'] .era-card__subtitle {
-  color: #7B8FA3;
+  color: #A84426;
 }
 
 .era-card__day-badge {
@@ -1314,10 +1315,10 @@
 
 /* Description */
 .era-card__description {
-  font-family: 'Libre Baskerville', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.88rem;
-  font-style: italic;
-  line-height: 1.6;
+  font-weight: 400;
+  line-height: 1.65;
   margin: 0 0 1rem;
   max-width: 720px;
 }
@@ -1440,9 +1441,9 @@
 }
 
 .journey-header__subtitle {
-  font-family: 'Libre Baskerville', serif;
-  font-size: 1rem;
-  font-style: italic;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 400;
   margin: 0 0 1rem;
 }
 
