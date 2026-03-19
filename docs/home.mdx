@@ -1,0 +1,281 @@
+---
+slug: /
+sidebar_position: 0
+title: Home
+sidebar_label: Home
+hide_table_of_contents: true
+pagination_next: null
+pagination_prev: null
+---
+
+import Card from '@site/src/components/Card';
+import StatsBar from '@site/src/components/StatsBar';
+import ScrollReveal from '@site/src/components/ScrollReveal';
+import { stats } from '@site/src/data/stats';
+import { LayoutDashboard, ListTodo, Database, RefreshCw, Briefcase, Wallet, CreditCard, Brain, Cpu, Target, GitBranch, Cloud, Server, Settings, Flag, Rocket, BookOpen, TestTubes, Map, Sparkles } from 'lucide-react';
+
+<div className="landing-hero">
+
+# MDD Docs
+
+Personal Dashboard Knowledge Base
+
+</div>
+
+<StatsBar />
+
+<ScrollReveal>
+
+<h2 className="section-header">Overview</h2>
+
+<div className="card-grid">
+  <Card
+    icon={<LayoutDashboard size={24} />}
+    title="What Is MDD?"
+    description="A personal productivity dashboard combining task management, consulting CRM, financial health, and AI automation."
+    href="/overview/what-is-mdd"
+  />
+  <Card
+    icon={<Cpu size={24} />}
+    title="Tech Stack"
+    description="React 19, Vite 7, Supabase, Vercel, Claude API, LaunchDarkly -- the full stack documented."
+    href="/overview/tech-stack"
+  />
+  <Card
+    icon={<GitBranch size={24} />}
+    title="Architecture"
+    description="System overview, data flow, sync architecture, and request lifecycle -- with Mermaid diagrams."
+    href="/overview/architecture"
+  />
+  <Card
+    icon={<Settings size={24} />}
+    title="Keyboard Shortcuts"
+    description="Cmd+K command palette, view toggles, theme cycling, and all keyboard shortcuts."
+    href="/overview/keyboard-shortcuts"
+  />
+</div>
+
+</ScrollReveal>
+
+<ScrollReveal delay={100}>
+
+<h2 className="section-header">Features</h2>
+
+<div className="card-grid">
+  <Card
+    icon={<ListTodo size={24} />}
+    title="Task Manager"
+    description="Multi-source ingestion, 4 view modes, 8-dimension filtering, real-time sync, and dev task pipeline."
+    href="/features/task-manager"
+  />
+  <Card
+    icon={<RefreshCw size={24} />}
+    title="Data Sources"
+    description="How 6 sources -- Notion, Granola, Apple Reminders, GitHub, Email, Calendar -- feed into the task inbox."
+    href="/features/task-data-sources"
+    badge="NEW"
+  />
+  <Card
+    icon={<Briefcase size={24} />}
+    title="Consulting Portal"
+    description="Full CRM with client management, deal pipeline, contacts, activity tracking, analytics, and proposals."
+    href="/features/consulting-portal"
+  />
+  <Card
+    icon={<Wallet size={24} />}
+    title="Financial Health"
+    description="Net worth, cash flow, and account tracking powered by Monarch Money data sync."
+    href="/features/financial-health"
+  />
+  <Card
+    icon={<CreditCard size={24} />}
+    title="CC Tracker"
+    description="Credit card rewards tracking with usage monitoring."
+    href="/features/cc-tracker"
+  />
+  <Card
+    icon={<Brain size={24} />}
+    title="AI Automation"
+    description="Task classification, scoring, research, email drafting, contact enrichment -- all human-in-the-loop."
+    href="/features/ai-automation"
+  />
+  <Card
+    icon={<LayoutDashboard size={24} />}
+    title="Platform"
+    description="Command palette, keyboard shortcuts, dark mode, feature flags, and dev metrics."
+    href="/features/platform"
+  />
+</div>
+
+</ScrollReveal>
+
+<ScrollReveal delay={200}>
+
+<h2 className="section-header">AI Pipeline</h2>
+
+<div className="card-grid">
+  <Card
+    icon={<Sparkles size={24} />}
+    title="Pipeline Overview"
+    description="Full AI pipeline: ingestion, classification, scoring, queue, executor, human review, flywheel."
+    href="/ai-pipeline/overview"
+  />
+  <Card
+    icon={<Cpu size={24} />}
+    title="Task Processor"
+    description="The task-process cron: atomic claiming, one-at-a-time execution, error handling."
+    href="/ai-pipeline/task-processor"
+  />
+  <Card
+    icon={<Target size={24} />}
+    title="Executors"
+    description="8 executor types: classify, dev, research, comms, section, enrich, follow-up, deal-score."
+    href="/ai-pipeline/executors"
+  />
+  <Card
+    icon={<Brain size={24} />}
+    title="Learning Flywheel"
+    description="How human decisions train future classification -- acceptance rates, trust levels, few-shot context."
+    href="/ai-pipeline/learning-flywheel"
+  />
+</div>
+
+</ScrollReveal>
+
+<ScrollReveal delay={100}>
+
+<h2 className="section-header">Integrations</h2>
+
+<div className="card-grid">
+  <Card
+    icon={<Database size={24} />}
+    title="Supabase"
+    description="Database, auth, real-time subscriptions, state management, and cross-tab sync."
+    href="/integrations/supabase"
+  />
+  <Card
+    icon={<RefreshCw size={24} />}
+    title="Notion Sync"
+    description="Bidirectional task sync with status mapping, conflict detection, and completion push-back."
+    href="/integrations/notion-sync"
+  />
+</div>
+
+</ScrollReveal>
+
+<ScrollReveal delay={200}>
+
+<h2 className="section-header">Database Reference</h2>
+
+<div className="card-grid">
+  <Card
+    icon={<Database size={24} />}
+    title="Schema Overview"
+    description="Entity-relationship diagram covering all 4 domain clusters: tasks, CRM, AI, financial."
+    href="/data/overview"
+  />
+  <Card
+    icon={<Database size={24} />}
+    title="Tasks Schema"
+    description="tasks, task_queue, task_decisions, task_dismissals, and sync_state table details."
+    href="/data/tasks-schema"
+  />
+</div>
+
+</ScrollReveal>
+
+<ScrollReveal delay={100}>
+
+<h2 className="section-header">API Reference</h2>
+
+<div className="card-grid">
+  <Card
+    icon={<Server size={24} />}
+    title="API Overview"
+    description="Master table of all 9 Vercel serverless endpoints with method, trigger, and auth."
+    href="/api/overview"
+  />
+  <Card
+    icon={<Cloud size={24} />}
+    title="Sync Endpoints"
+    description="sync-trigger, sync-notion, sync-granola, sync-apple -- the data ingestion layer."
+    href="/api/sync-endpoints"
+  />
+</div>
+
+</ScrollReveal>
+
+<ScrollReveal delay={200}>
+
+<h2 className="section-header">Configuration</h2>
+
+<div className="card-grid">
+  <Card
+    icon={<Settings size={24} />}
+    title="Environment Variables"
+    description="All env vars organized by scope: frontend (VITE_*), backend, and local scripts."
+    href="/config/environment"
+  />
+  <Card
+    icon={<Flag size={24} />}
+    title="Feature Flags"
+    description="LaunchDarkly flag registry -- what each flag controls and how to toggle them."
+    href="/config/feature-flags"
+  />
+  <Card
+    icon={<Rocket size={24} />}
+    title="Deployment"
+    description="Vercel setup, cron schedule, route rewrites, and serverless function limits."
+    href="/config/vercel-deployment"
+  />
+  <Card
+    icon={<Settings size={24} />}
+    title="Dev Setup"
+    description="Prerequisites, npm commands, local Express server, and Vite proxy configuration."
+    href="/config/dev-setup"
+  />
+</div>
+
+</ScrollReveal>
+
+<ScrollReveal delay={100}>
+
+<h2 className="section-header">Guides</h2>
+
+<div className="card-grid">
+  <Card
+    icon={<BookOpen size={24} />}
+    title="Getting Started"
+    description="Prerequisites, clone, install, run -- and first things to try."
+    href="/guides/getting-started"
+  />
+  <Card
+    icon={<TestTubes size={24} />}
+    title="Testing"
+    description="1,831 tests across 193 files -- how to run, coverage thresholds, and test patterns."
+    href="/guides/testing"
+  />
+</div>
+
+</ScrollReveal>
+
+<ScrollReveal delay={200}>
+
+<h2 className="section-header">Roadmap</h2>
+
+<div className="card-grid">
+  <Card
+    icon={<Map size={24} />}
+    title="Wishlist"
+    description="Planned features, integrations to explore, and evaluation criteria."
+    href="/roadmap/wishlist"
+  />
+  <Card
+    icon={<Map size={24} />}
+    title="Changelog"
+    description="What changed and when -- reverse-chronological history of MDD HQ."
+    href="/roadmap/changelog"
+  />
+</div>
+
+</ScrollReveal>

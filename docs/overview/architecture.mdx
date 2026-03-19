@@ -1,0 +1,293 @@
+---
+sidebar_position: 3
+title: Architecture
+sidebar_label: Architecture
+---
+
+# Architecture
+
+MDD HQ follows a client-heavy architecture where the React frontend handles most business logic, with Vercel serverless functions providing data ingestion, sync orchestration, and AI processing. Supabase serves as the persistence and real-time layer.
+
+## System Overview
+
+```mermaid
+flowchart TB
+    subgraph Client["React Frontend (Vercel Static)"]
+        UI[UI Components]
+        Hooks[Custom Hooks]
+        State[State Management]
+        LD[LaunchDarkly SDK]
+    end
+
+    subgraph Vercel["Vercel Serverless Functions"]
+        SyncTrigger[sync-trigger]
+        SyncNotion[sync-notion]
+        SyncGranola[sync-granola]
+        SyncApple[sync-apple]
+        EmailIngest[email-ingest]
+        TaskProcess[task-process]
+        TaskDismiss[task-dismiss]
+        TaskAutomate[task-automate]
+        TasksGitHub[tasks-github]
+    end
+
+    subgraph External["External Services"]
+        NotionAPI[Notion API]
+        GranolaAPI[Granola Notes]
+        AppleAPI[Apple Reminders]
+        GitHubAPI[GitHub API]
+        ClaudeAPI[Claude API - Haiku]
+        MonarchAPI[Monarch Money]
+        LaunchDarkly[LaunchDarkly]
+    end
+
+    subgraph Supabase["Supabase"]
+        DB[(PostgreSQL)]
+        RT[Real-time Channels]
+        Auth[Auth / RLS]
+    end
+
+    UI --> Hooks
+    Hooks --> State
+    State --> DB
+    State --> RT
+    LD --> LaunchDarkly
+
+    SyncTrigger --> SyncNotion
+    SyncTrigger --> SyncGranola
+    SyncNotion --> NotionAPI
+    SyncGranola --> GranolaAPI
+    SyncApple --> AppleAPI
+    TasksGitHub --> GitHubAPI
+    TaskProcess --> ClaudeAPI
+    EmailIngest --> DB
+
+    SyncNotion --> DB
+    SyncGranola --> DB
+    SyncApple --> DB
+    TaskProcess --> DB
+    TaskDismiss --> DB
+    TaskAutomate --> DB
+    TasksGitHub --> DB
+    EmailIngest --> DB
+
+    RT --> Client
+```
+
+## Data Flow
+
+This diagram shows how data moves from external sources through the serverless layer into Supabase, and then to the frontend via real-time subscriptions.
+
+```mermaid
+flowchart LR
+    subgraph Sources["Data Sources"]
+        Notion[Notion Tasks DB]
+        Granola[Granola Notes DB]
+        Apple[Apple Reminders]
+        GitHub[GitHub Issues/PRs]
+        Email[Email Inbox]
+        Calendar[MS365 Calendar]
+    end
+
+    subgraph Sync["Sync Layer (Vercel)"]
+        SN[sync-notion]
+        SG[sync-granola]
+        SA[sync-apple]
+        TG[tasks-github]
+        EI[email-ingest]
+    end
+
+    subgraph Transform["Data Normalization"]
+        Normalize[Map to task schema]
+        Dedup[Duplicate detection via source_id]
+        Upsert[syncAndUpsert - insert_only or upsert]
+    end
+
+    subgraph Store["Supabase"]
+        Tasks[(tasks table)]
+        SyncState[(sync_state table)]
+        Queue[(task_queue table)]
+    end
+
+    subgraph Deliver["Frontend"]
+        RT[Real-time subscription]
+        LS[localStorage cache]
+        UI[Task Manager UI]
+    end
+
+    Notion --> SN
+    Granola --> SG
+    Apple --> SA
+    GitHub --> TG
+    Email --> EI
+    Calendar --> EI
+
+    SN --> Normalize
+    SG --> Normalize
+    SA --> Normalize
+    TG --> Normalize
+    EI --> Normalize
+
+    Normalize --> Dedup
+    Dedup --> Upsert
+    Upsert --> Tasks
+    Upsert --> SyncState
+
+    Tasks --> RT
+    RT --> LS
+    LS --> UI
+```
+
+## Sync Architecture
+
+The sync system uses a combination of scheduled crons and on-demand triggers. Each sync endpoint is idempotent -- running it multiple times produces the same result.
+
+```mermaid
+flowchart TB
+    subgraph Triggers["Trigger Methods"]
+        Cron[Vercel Cron Schedule]
+        Manual[Manual via sync-trigger]
+        Webhook[Apple Shortcuts Webhook]
+    end
+
+    subgraph Schedule["Cron Schedule"]
+        C1["sync-notion: Daily 14:00 UTC"]
+        C2["sync-granola: Daily 14:15 UTC"]
+        C3["task-process: Every 5 min"]
+    end
+
+    subgraph SyncEndpoints["Sync Endpoints"]
+        SN[sync-notion]
+        SG[sync-granola]
+        SA[sync-apple]
+        TG[tasks-github]
+        EI[email-ingest]
+    end
+
+    subgraph SyncLogic["Sync Behavior"]
+        Fetch[Fetch from source API]
+        Map[Map to task format]
+        Check[Check source_id for duplicates]
+        Write[Write to Supabase]
+        State[Update sync_state]
+    end
+
+    Cron --> C1
+    Cron --> C2
+    Cron --> C3
+    Manual --> SN
+    Manual --> SG
+    Webhook --> SA
+
+    C1 --> SN
+    C2 --> SG
+
+    SN --> Fetch
+    SG --> Fetch
+    SA --> Fetch
+    TG --> Fetch
+    EI --> Map
+
+    Fetch --> Map
+    Map --> Check
+    Check --> Write
+    Write --> State
+```
+
+## Request Lifecycle
+
+A typical request from the frontend follows this path:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant React as React App
+    participant LS as localStorage
+    participant Supa as Supabase
+    participant RT as Real-time Channel
+
+    User->>React: Interact with UI
+    React->>LS: Read cached state (instant)
+    React->>Supa: Fetch latest data
+    Supa-->>React: Return rows
+    React->>LS: Update cache
+    React->>User: Render UI
+
+    Note over User,RT: On data mutation
+    User->>React: Update task
+    React->>LS: Optimistic update
+    React->>Supa: Write to database
+    Supa->>RT: Broadcast change
+    RT-->>React: Real-time update (other tabs)
+    React->>LS: Sync cache
+```
+
+## Key Architecture Patterns
+
+### State Management: Three-Layer Pattern
+
+MDD HQ does not use Redux or any global state library. Instead, it uses a three-layer pattern:
+
+1. **localStorage** - Provides instant load and offline capability. Tasks, preferences, and UI state are cached locally.
+2. **Supabase** - Source of truth for all persistent data. Reads and writes go through the Supabase JS client.
+3. **Real-time channels** - Supabase WebSocket subscriptions push changes to all open tabs. Conflict resolution uses `updated_at` timestamps -- newest write wins.
+
+### Authentication: Owner-Only Access
+
+MDD HQ is a single-user application. Authentication uses an `isOwner` flag rather than a full user management system. Supabase Row-Level Security (RLS) policies restrict all table access to the authenticated owner.
+
+### Feature Flags: LaunchDarkly Integration
+
+The LaunchDarkly React SDK evaluates feature flags client-side. The `useFeatureFlag` hook and `FeatureGate` component wrap flag checks throughout the application. Security-sensitive flags (like `PERSONAL_FINANCE` and `CONSULTING_AI_FEATURES`) default to OFF.
+
+### Error Boundaries and Fallbacks
+
+Each major feature area has its own error boundary. If the consulting portal crashes, it does not take down the task manager. Static JSON fallbacks exist for features like financial health, so the UI remains usable even when external data sources are unavailable.
+
+## Context Providers
+
+The app uses React context providers for cross-cutting concerns:
+
+| Context | Purpose |
+|---|---|
+| `SupabaseProvider` | Database client and auth state |
+| `ThemeProvider` | Dark/light mode management |
+| `FeatureFlagProvider` | LaunchDarkly flag evaluation |
+| `FinancialDataProvider` | Financial data with privacy gate |
+| `CommandPaletteProvider` | Cmd+K command palette state |
+| `KeyboardShortcutProvider` | Global keyboard shortcut registry |
+| `ToastProvider` | Notification and undo toasts |
+
+## Directory Structure
+
+```
+src/
+  components/       # Shared UI components
+  features/         # Feature-specific modules
+    tasks/           # Task manager
+    consulting/      # CRM portal
+    financial/       # Financial health
+    cc-tracker/      # Credit card tracker
+  hooks/             # Custom React hooks
+  contexts/          # React context providers
+  utils/             # Shared utilities
+  data/              # Static data and constants
+api/
+  sync-trigger.js    # Orchestrator
+  sync-notion.js     # Notion sync
+  sync-granola.js    # Granola sync
+  sync-apple.js      # Apple Reminders sync
+  email-ingest.js    # Email ingestion
+  task-process.js    # AI task processor
+  task-dismiss.js    # Task dismissal
+  task-automate.js   # Task automation
+  tasks-github.js    # GitHub sync
+  _lib/              # Shared server utilities
+```
+
+## Related Pages
+
+- [Tech Stack](./tech-stack) - Detailed technology breakdown
+- [Supabase Integration](../integrations/supabase) - Database and real-time details
+- [API Overview](../api/overview) - Serverless endpoint reference
+- [AI Pipeline Overview](../ai-pipeline/overview) - AI processing architecture

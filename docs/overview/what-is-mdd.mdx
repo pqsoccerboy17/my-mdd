@@ -1,0 +1,99 @@
+---
+sidebar_position: 1
+title: What Is MDD?
+sidebar_label: What Is MDD?
+---
+
+# What Is MDD?
+
+**MDD HQ** is a full-stack personal productivity SaaS dashboard built around the philosophy of **Move. Dream. Discover.** It consolidates task management, consulting CRM, financial health tracking, credit card rewards, and AI-powered automation into a single unified interface.
+
+Live at [mdd-hq.vercel.app](https://mdd-hq.vercel.app).
+
+## Why MDD Exists
+
+Most productivity tools solve one problem well but force you to context-switch between apps for everything else. MDD HQ is built for a solo consultant who needs:
+
+- A single inbox for tasks arriving from 6 different sources
+- A CRM that understands consulting workflows -- not enterprise sales funnels
+- Financial visibility without opening three separate apps
+- AI that assists with classification and drafting but never acts autonomously
+
+MDD is not a product for the general market. It is a personal system, purpose-built for one user, with no compromises for generality. That constraint is its strength -- every feature exists because it solves a real, recurring problem.
+
+## The Five Feature Areas
+
+| Feature Area | Route | Purpose | Key Capabilities |
+|---|---|---|---|
+| **Task Manager** | `/tasks` | Central task inbox with multi-source ingestion | 4 view modes, 8-dimension filtering, drag-and-drop pipeline, undo |
+| **Consulting Portal** | `/consulting` | Full CRM for consulting operations | Client management, deal pipeline, contacts, activity tracking, analytics, proposals |
+| **Financial Health** | `/financial-health` | Net worth and cash flow visibility | Monarch Money sync, account tracking, privacy gate |
+| **CC Tracker** | `/tools/cc-tracker` | Credit card rewards optimization | Usage monitoring, reward tracking, card comparison |
+| **Dashboard** | `/` | Unified overview | Key metrics, recent activity, quick actions |
+
+## What Makes It Unique
+
+### Multi-Source Task Ingestion
+
+Tasks flow in from 6 sources -- Notion, Granola meeting notes, Apple Reminders, GitHub, Email, and Calendar -- and land in a unified inbox. Each source has its own sync endpoint that normalizes data into a common task format. Duplicate detection prevents the same item from appearing twice.
+
+### Human-in-the-Loop AI
+
+The AI pipeline uses Claude Haiku to classify, score, and draft actions for tasks. But it never auto-executes. Every AI suggestion goes through human review before anything happens. The system learns from accept/reject decisions to improve future suggestions. See the [AI Pipeline Overview](../ai-pipeline/overview) for the full architecture.
+
+### Consulting-Native CRM
+
+The consulting portal is not a stripped-down Salesforce. It is built for how independent consultants actually work -- tracking deals through proposal/negotiation/active stages, managing contacts by company, logging activities, and generating client intelligence reports.
+
+### Offline-First State Management
+
+The app uses a layered state pattern: localStorage for immediate offline access, Supabase for persistent storage, and real-time channels for cross-tab synchronization. This means the dashboard loads instantly even when the network is slow, and changes sync when connectivity returns.
+
+### Feature Flag Driven
+
+Every major feature can be toggled independently via LaunchDarkly. This enables safe rollouts, quick rollbacks, and the ability to run the app in "demo mode" for presentations. See [Feature Flags](../config/feature-flags) for the full registry.
+
+## Architecture at a Glance
+
+MDD HQ is a React single-page application deployed to Vercel, backed by Supabase for data persistence and real-time sync. Nine serverless functions handle data ingestion, sync orchestration, and AI task processing. The AI pipeline runs on a 5-minute cron cycle, processing one queued task at a time with atomic claim semantics.
+
+For the full architecture with diagrams, see [Architecture](./architecture).
+
+## Tech Stack Summary
+
+| Layer | Technology |
+|---|---|
+| Frontend | React 19, Vite 7, Tailwind CSS 4 |
+| Backend | Vercel Serverless Functions (Node.js) |
+| Database | Supabase (PostgreSQL + Real-time) |
+| AI | Claude API (Haiku model) |
+| Feature Flags | LaunchDarkly |
+| Hosting | Vercel |
+
+For detailed version information and dependency breakdown, see [Tech Stack](./tech-stack).
+
+## Quality Baseline
+
+MDD HQ maintains a strict quality baseline:
+
+- **1,831 tests** across 193 test files
+- **100/100** quality score
+- **0** lint errors
+- **0** Semgrep security findings
+- Coverage thresholds enforced in CI
+
+See [Testing](../guides/testing) for the full quality story.
+
+## Key Routes
+
+| Route | Component | Description |
+|---|---|---|
+| `/` | Dashboard | Main overview with key metrics and recent activity |
+| `/tasks` | TaskManager | Full task management interface |
+| `/consulting` | ConsultingPortal | CRM with clients, pipeline, contacts, activities |
+| `/financial-health` | FinancialHealth | Net worth, cash flow, account tracking |
+| `/tools/cc-tracker` | CCTracker | Credit card rewards tracker |
+
+## Getting Started
+
+If you are looking to run MDD HQ locally, start with the [Getting Started Guide](../guides/getting-started). If you want to understand the system architecture first, continue to [Tech Stack](./tech-stack) and [Architecture](./architecture).

@@ -1,0 +1,129 @@
+---
+sidebar_position: 2
+title: Task Data Sources
+sidebar_label: Data Sources
+---
+
+import SyncFlowExplorer from '@site/src/components/SyncFlowExplorer';
+
+# Task Data Sources
+
+MDD HQ ingests tasks from 6 external sources plus manual creation. Each source has a dedicated sync endpoint that normalizes data into the common task schema, handles deduplication via `source_id`, and writes results to Supabase.
+
+## Source Overview
+
+| Source | Endpoint | Trigger | Source Key | What It Syncs |
+|---|---|---|---|---|
+| Notion | `/api/sync-notion` | Daily cron (14:00 UTC) | `notion` | Tasks from Notion Tasks database |
+| Granola | `/api/sync-granola` | Daily cron (14:15 UTC) | `granola` | Meeting notes with action items |
+| Apple Reminders | `/api/sync-apple` | Webhook + cron | `apple` | Reminders via Apple Shortcuts |
+| GitHub | `/api/tasks-github` | Manual trigger | `github` | Issues and pull requests |
+| Email | `/api/email-ingest` | Webhook | `email` | Forwarded emails parsed into tasks |
+| Calendar | `/api/email-ingest` | Via email integration | `ms365` | Calendar events as tasks |
+| Manual | Direct UI creation | User action | `manual` | Tasks created in the Task Manager UI |
+
+## Sync Flow Explorer
+
+The interactive explorer below shows how each data source flows through the sync pipeline.
+
+<SyncFlowExplorer />
+
+## Source Details
+
+### Notion
+
+The Notion sync is the most mature integration. It reads from a dedicated Notion Tasks database using the Notion API and performs bidirectional sync.
+
+- **Read direction**: Fetches all tasks from the Notion database, maps Notion properties (title, status, priority, tags) to the MDD task schema, and upserts into Supabase
+- **Write direction**: When a task is completed in MDD, the completion status is pushed back to Notion via the `syncNotionTasks` function
+- **Deduplication**: Uses the Notion page ID as `source_id` to prevent duplicates
+- **Status mapping**: Notion statuses are mapped to MDD sections using helper functions (e.g., "In Progress" maps to `active`, "Blocked" maps to `waiting`)
+- **Conflict detection**: If a task has been modified in both Notion and MDD since the last sync, a `sync_conflict` flag is set in `task_meta`
+
+See [Notion Sync](../integrations/notion-sync) for the full bidirectional sync documentation.
+
+### Granola
+
+Granola is a meeting notes application. The sync pulls action items extracted from meeting transcripts.
+
+- **What syncs**: Action items and follow-ups identified in Granola meeting notes
+- **Source database**: Reads from a dedicated Notion database where Granola stores its notes (Granola syncs to Notion natively, and MDD reads from there)
+- **Deduplication**: Uses the Granola note ID + action item index as `source_id`
+- **Task type**: Granola tasks are typically classified as `comms` or `research` by the AI classifier
+- **Sync function**: `syncGranolaTasks` handles the mapping and upsert logic
+
+### Apple Reminders
+
+Apple Reminders integration uses Apple Shortcuts as a bridge to push reminders into MDD.
+
+- **Webhook trigger**: An Apple Shortcut sends a POST request to `/api/sync-apple` when reminders change
+- **Cron backup**: A scheduled sync also runs to catch any missed webhook events
+- **What syncs**: Reminder title, due date, priority, and completion status
+- **Source key**: `apple`
+- **Deduplication**: Uses the Apple Reminder ID as `source_id`
+
+### GitHub
+
+GitHub sync pulls issues and pull requests from specified repositories.
+
+- **What syncs**: Open issues and PRs assigned to the user
+- **Authentication**: Uses a GitHub Personal Access Token (`GITHUB_PAT`)
+- **Task type**: GitHub tasks are always classified as `dev`
+- **Pipeline integration**: GitHub issues map directly to pipeline stages (open = backlog, in progress = in-progress, review requested = review)
+- **Deduplication**: Uses `github-{repo}-{number}` as `source_id`
+
+### Email
+
+The email ingest endpoint accepts forwarded emails and parses them into tasks.
+
+- **Trigger**: Webhook called when an email is forwarded to the ingest address
+- **Parsing**: Extracts subject, sender, body preview, and date
+- **Task type**: Email tasks are classified as `comms` by default, reclassified by the AI classifier
+- **Source key**: `email`
+- **Authentication**: Protected by `INGEST_API_KEY`
+
+### Calendar (MS365)
+
+Calendar events from Microsoft 365 are ingested through the email pipeline.
+
+- **Source**: MS365 Outlook calendar via the MS365 API
+- **What syncs**: Upcoming meetings and events with prep tasks
+- **Source key**: `ms365`
+- **Task type**: Calendar tasks are typically `comms` or `manual`
+
+### Manual
+
+Users can create tasks directly in the Task Manager UI.
+
+- **No sync needed**: Tasks are written directly to Supabase
+- **Source key**: `manual`
+- **Full control**: Manual tasks support all fields including title, description, section, type, and priority
+- **Default section**: New manual tasks are placed in `active`
+
+## Deduplication Strategy
+
+Every external task has a `source_id` field that uniquely identifies it within its source system. The sync process uses this field to prevent duplicates:
+
+1. Fetch tasks from the external source
+2. For each task, check if a record with the same `source` + `source_id` already exists
+3. If it exists and the external version is newer, update the existing record
+4. If it does not exist, insert a new record
+5. Update the `sync_state` table with the last sync timestamp
+
+This approach is implemented in the `syncAndUpsert()` function which supports two modes:
+
+| Mode | Behavior |
+|---|---|
+| `insert_only` | Only create new records, never update existing ones |
+| `upsert` | Create new records and update existing ones if the source data is newer |
+
+## Dismissals
+
+When a user dismisses a synced task, the `source_id` is recorded in the `task_dismissals` table. On subsequent syncs, dismissed tasks are filtered out so they do not reappear. The dismissal is permanent unless manually removed.
+
+## Related Pages
+
+- [Notion Sync](../integrations/notion-sync) - Full bidirectional sync details
+- [Sync Endpoints](../api/sync-endpoints) - API endpoint documentation
+- [Task Manager](./task-manager) - How tasks are displayed and managed
+- [Tasks Schema](../data/tasks-schema) - Database table structure
