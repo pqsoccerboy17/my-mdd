@@ -1533,6 +1533,66 @@
   }
 }
 
+/* ---- Project Stats -- By the Numbers grid ---- */
+.project-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem 1rem;
+  max-width: 720px;
+  margin: 1.5rem auto 2rem;
+  padding: 1.5rem 0;
+}
+
+.project-stats__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.25rem;
+}
+
+.project-stats__value {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.85rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+[data-theme='dark'] .project-stats__value {
+  color: #C85A3A;
+}
+
+[data-theme='light'] .project-stats__value {
+  color: #A84426;
+}
+
+.project-stats__label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+[data-theme='dark'] .project-stats__label {
+  color: #7B8FA3;
+}
+
+[data-theme='light'] .project-stats__label {
+  color: #7B8FA3;
+}
+
+@media (max-width: 640px) {
+  .project-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem 1rem;
+  }
+
+  .project-stats__value {
+    font-size: 1.5rem;
+  }
+}
+
 /* ---- Search -- Terracotta Theme ---- */
 :root {
   --search-local-modal-background: #F8F6F7;
