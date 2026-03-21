@@ -1,11 +1,13 @@
-import { useRef, useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import type { TimelineProps } from './types';
+import type { TimelineEra } from './types';
 import TrailMap from './TrailMap';
 import EraCard from './EraCard';
+import ChapterIndex from './ChapterIndex';
 import { computeProjectStats } from './changelogData';
-import type { TimelineEra } from './types';
+import { getMinDay } from './utils';
 
 function JourneyHeader({ data }: { data: TimelineEra[] }): ReactNode {
   const stats = computeProjectStats(data);
@@ -60,15 +62,23 @@ function ActiveEraTracker({ data, onActiveChange }: TimelineProps & { onActiveCh
 export default function Timeline({ data }: TimelineProps): ReactNode {
   const [activeEraId, setActiveEraId] = useState<string | null>(data[0]?.id ?? null);
 
+  // TrailMap needs chronological order (left=earliest, right=latest)
+  const chronologicalData = useMemo(
+    () => [...data].sort((a, b) => getMinDay(a) - getMinDay(b)),
+    [data],
+  );
+
   return (
     <div className="timeline-journal">
       <BrowserOnly fallback={null}>
         {() => <ActiveEraTracker data={data} onActiveChange={setActiveEraId} />}
       </BrowserOnly>
 
-      <TrailMap eras={data} activeEraId={activeEraId} />
+      <TrailMap eras={chronologicalData} activeEraId={activeEraId} />
 
       <JourneyHeader data={data} />
+
+      <ChapterIndex eras={data} activeEraId={activeEraId} />
 
       <div className="era-list">
         {data.map((era, idx) => (

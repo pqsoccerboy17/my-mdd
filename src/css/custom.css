@@ -994,6 +994,170 @@
   transform: translate(0, 0);
 }
 
+/* ---- Chapter Index (changelog era navigation) ---- */
+.chapter-index {
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  border: 1px solid #E8E1D0;
+  background: #fff;
+  overflow: hidden;
+}
+[data-theme='dark'] .chapter-index {
+  border-color: rgba(200, 90, 58, 0.12);
+  background: #242938;
+}
+
+.chapter-index__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  border-bottom: 1px solid #E8E1D0;
+}
+[data-theme='dark'] .chapter-index__header {
+  border-bottom-color: rgba(200, 90, 58, 0.08);
+}
+.chapter-index--collapsed .chapter-index__header {
+  border-bottom: none;
+}
+
+.chapter-index__heading {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #7B8FA3;
+}
+[data-theme='dark'] .chapter-index__heading {
+  color: #A0B4C8;
+}
+
+.chapter-index__count {
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: rgba(200, 90, 58, 0.1);
+  color: #C85A3A;
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+}
+
+.chapter-index__chevron {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: #7B8FA3;
+  transition: transform 0.2s ease;
+}
+.chapter-index__chevron--open {
+  transform: rotate(180deg);
+}
+
+.chapter-index__list {
+  padding: 0.25rem 0;
+}
+
+.chapter-index__item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-left: 3px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: all 0.15s ease;
+  border-left-color: var(--chapter-accent, #7B8FA3);
+}
+.chapter-index__item:hover {
+  background: rgba(168, 68, 38, 0.04);
+}
+[data-theme='dark'] .chapter-index__item:hover {
+  background: rgba(212, 112, 78, 0.06);
+}
+
+.chapter-index__item--active {
+  background: rgba(200, 90, 58, 0.06);
+  border-left-width: 3px;
+}
+[data-theme='dark'] .chapter-index__item--active {
+  background: rgba(200, 90, 58, 0.1);
+}
+
+.chapter-index__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--chapter-accent, #7B8FA3);
+  flex-shrink: 0;
+}
+.chapter-index__item--active .chapter-index__dot {
+  width: 8px;
+  height: 8px;
+  box-shadow: 0 0 6px var(--chapter-accent, #C85A3A);
+}
+
+.chapter-index__title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #2C3E50;
+  flex: 1;
+  min-width: 0;
+}
+[data-theme='dark'] .chapter-index__title {
+  color: #F6F1ED;
+}
+
+.chapter-index__meta {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.chapter-index__days {
+  font-size: 0.75rem;
+  color: #7B8FA3;
+}
+[data-theme='dark'] .chapter-index__days {
+  color: #7B8FA3;
+}
+
+.chapter-index__commits {
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: rgba(123, 143, 163, 0.1);
+  color: #7B8FA3;
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  min-width: 2rem;
+  text-align: center;
+}
+.chapter-index__commits::after {
+  content: ' commits';
+  font-weight: 400;
+}
+[data-theme='dark'] .chapter-index__commits {
+  background: rgba(123, 143, 163, 0.15);
+}
+
+@media (max-width: 640px) {
+  .chapter-index__meta {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.15rem;
+  }
+  .chapter-index__commits::after {
+    content: '';
+  }
+}
+
 /* ---- Expedition Journal Timeline ---- */
 
 /* Trail Map -- sticky horizontal progress bar */

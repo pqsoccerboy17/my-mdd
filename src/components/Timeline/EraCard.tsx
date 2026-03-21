@@ -1,24 +1,12 @@
 import React from 'react';
 import type { ReactNode } from 'react';
 import clsx from 'clsx';
-import type { TimelineEra, ChangeCategory } from './types';
+import type { TimelineEra } from './types';
+import { getDominantCategory } from './utils';
 
 interface EraCardProps {
   era: TimelineEra;
   index: number;
-}
-
-/** Determines the dominant category for the era's left border accent */
-function getDominantCategory(era: TimelineEra): ChangeCategory {
-  const counts: Record<ChangeCategory, number> = {
-    feature: 0,
-    infrastructure: 0,
-    quality: 0,
-    design: 0,
-  };
-  era.changes.forEach((c) => { counts[c.category]++; });
-  return (Object.entries(counts) as [ChangeCategory, number][])
-    .sort((a, b) => b[1] - a[1])[0][0];
 }
 
 export default function EraCard({ era, index }: EraCardProps): ReactNode {
