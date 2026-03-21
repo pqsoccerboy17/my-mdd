@@ -50,6 +50,11 @@ const sidebars: SidebarsConfig = {
       items: [
         'integrations/supabase',
         'integrations/notion-sync',
+        'integrations/github-sync',
+        'integrations/apple-reminders',
+        'integrations/granola-sync',
+        'integrations/email-sync',
+        'integrations/calendar-sync',
       ],
     },
     {
@@ -101,6 +106,8 @@ const sidebars: SidebarsConfig = {
       collapsed: false,
       items: [
         'roadmap/visual-planner',
+        'roadmap/m5-system-architecture',
+        'roadmap/deepwiki-intelligence-plan',
         'roadmap/wishlist',
         'roadmap/changelog',
       ],
