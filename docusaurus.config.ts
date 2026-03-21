@@ -107,6 +107,14 @@ const config: Config = {
       ],
     },
     footer: {},
+    metadata: [
+      { name: 'description', content: 'Documentation for MDD HQ -- a personal productivity dashboard combining task management, consulting CRM, financial health tracking, and AI automation.' },
+      { property: 'og:title', content: 'MDD Docs' },
+      { property: 'og:description', content: 'Documentation for MDD HQ -- a personal productivity dashboard combining task management, consulting CRM, financial health tracking, and AI automation.' },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:url', content: 'https://my-mdd.vercel.app' },
+      { name: 'twitter:card', content: 'summary' },
+    ],
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,

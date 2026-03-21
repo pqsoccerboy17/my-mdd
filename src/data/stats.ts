@@ -1,7 +1,7 @@
 /** MDD HQ inventory counts for StatsBar. */
 export const stats = {
-  features: 5,
-  integrations: 6,
+  features: 7,
+  integrations: 7,
   apiEndpoints: 9,
-  tests: 1831,
+  tests: 2376,
 };

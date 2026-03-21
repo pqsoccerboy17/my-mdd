@@ -8,23 +8,32 @@ pagination_next: null
 pagination_prev: null
 ---
 
+import Link from '@docusaurus/Link';
 import Card from '@site/src/components/Card';
 import StatsBar from '@site/src/components/StatsBar';
-import ScrollReveal from '@site/src/components/ScrollReveal';
-import { stats } from '@site/src/data/stats';
+import QuickStart from '@site/src/components/QuickStart';
+import WhatsNew from '@site/src/components/WhatsNew';
+import IntegrationStrip from '@site/src/components/IntegrationStrip';
 import { LayoutDashboard, ListTodo, Database, RefreshCw, Briefcase, Wallet, CreditCard, Brain, Cpu, Target, GitBranch, Cloud, Server, Settings, Flag, Rocket, BookOpen, TestTubes, Map, Sparkles } from 'lucide-react';
 
 <div className="landing-hero">
 
 # MDD Docs
 
-Personal Dashboard Knowledge Base
+<div className="landing-hero__subtitle">Documentation for MDD HQ -- a personal productivity dashboard combining task management, consulting CRM, financial health, and AI automation. Built in 26 days with 2,376 tests and a 100/100 quality score.</div>
+
+<div className="landing-hero__cta">
+  <Link to="/features/task-manager" className="landing-hero__btn landing-hero__btn--primary">Explore Features</Link>
+  <Link to="/roadmap/visual-planner" className="landing-hero__btn landing-hero__btn--secondary">View Roadmap</Link>
+</div>
 
 </div>
 
 <StatsBar />
 
-<ScrollReveal>
+<QuickStart />
+
+<WhatsNew />
 
 <h2 className="section-header">Overview</h2>
 
@@ -54,10 +63,6 @@ Personal Dashboard Knowledge Base
     href="/overview/keyboard-shortcuts"
   />
 </div>
-
-</ScrollReveal>
-
-<ScrollReveal delay={100}>
 
 <h2 className="section-header">Features</h2>
 
@@ -107,10 +112,6 @@ Personal Dashboard Knowledge Base
   />
 </div>
 
-</ScrollReveal>
-
-<ScrollReveal delay={200}>
-
 <h2 className="section-header">AI Pipeline</h2>
 
 <div className="card-grid">
@@ -140,30 +141,9 @@ Personal Dashboard Knowledge Base
   />
 </div>
 
-</ScrollReveal>
-
-<ScrollReveal delay={100}>
-
 <h2 className="section-header">Integrations</h2>
 
-<div className="card-grid">
-  <Card
-    icon={<Database size={24} />}
-    title="Supabase"
-    description="Database, auth, real-time subscriptions, state management, and cross-tab sync."
-    href="/integrations/supabase"
-  />
-  <Card
-    icon={<RefreshCw size={24} />}
-    title="Notion Sync"
-    description="Bidirectional task sync with status mapping, conflict detection, and completion push-back."
-    href="/integrations/notion-sync"
-  />
-</div>
-
-</ScrollReveal>
-
-<ScrollReveal delay={200}>
+<IntegrationStrip />
 
 <h2 className="section-header">Database Reference</h2>
 
@@ -182,10 +162,6 @@ Personal Dashboard Knowledge Base
   />
 </div>
 
-</ScrollReveal>
-
-<ScrollReveal delay={100}>
-
 <h2 className="section-header">API Reference</h2>
 
 <div className="card-grid">
@@ -202,10 +178,6 @@ Personal Dashboard Knowledge Base
     href="/api/sync-endpoints"
   />
 </div>
-
-</ScrollReveal>
-
-<ScrollReveal delay={200}>
 
 <h2 className="section-header">Configuration</h2>
 
@@ -236,10 +208,6 @@ Personal Dashboard Knowledge Base
   />
 </div>
 
-</ScrollReveal>
-
-<ScrollReveal delay={100}>
-
 <h2 className="section-header">Guides</h2>
 
 <div className="card-grid">
@@ -252,18 +220,21 @@ Personal Dashboard Knowledge Base
   <Card
     icon={<TestTubes size={24} />}
     title="Testing"
-    description="1,831 tests across 193 files -- how to run, coverage thresholds, and test patterns."
+    description="2,376 tests across 224 files -- how to run, coverage thresholds, and test patterns."
     href="/guides/testing"
   />
 </div>
 
-</ScrollReveal>
-
-<ScrollReveal delay={200}>
-
 <h2 className="section-header">Roadmap</h2>
 
 <div className="card-grid">
+  <Card
+    icon={<Sparkles size={24} />}
+    title="Visual Planner"
+    description="Interactive roadmap with timeline, dependency graph, and kanban views."
+    href="/roadmap/visual-planner"
+    badge="NEW"
+  />
   <Card
     icon={<Map size={24} />}
     title="Wishlist"
@@ -277,5 +248,3 @@ Personal Dashboard Knowledge Base
     href="/roadmap/changelog"
   />
 </div>
-
-</ScrollReveal>
