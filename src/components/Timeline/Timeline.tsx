@@ -4,26 +4,28 @@ import BrowserOnly from '@docusaurus/BrowserOnly';
 import type { TimelineProps } from './types';
 import TrailMap from './TrailMap';
 import EraCard from './EraCard';
-import { projectStats } from './changelogData';
+import { computeProjectStats } from './changelogData';
+import type { TimelineEra } from './types';
 
-function JourneyHeader(): ReactNode {
+function JourneyHeader({ data }: { data: TimelineEra[] }): ReactNode {
+  const stats = computeProjectStats(data);
   return (
     <div className="journey-header">
       <h2 className="journey-header__title">The Journey</h2>
       <p className="journey-header__subtitle">
-        From empty directory to production dashboard in {projectStats.totalDays} days
+        From empty directory to production dashboard in {stats.totalDays} days
       </p>
       <div className="journey-header__stats">
         <div className="journey-header__stat">
-          <span className="journey-header__stat-value">{projectStats.totalCommits}</span>
+          <span className="journey-header__stat-value">{stats.totalCommits}</span>
           <span className="journey-header__stat-label">Commits</span>
         </div>
         <div className="journey-header__stat">
-          <span className="journey-header__stat-value">{projectStats.totalDays}</span>
+          <span className="journey-header__stat-value">{stats.totalDays}</span>
           <span className="journey-header__stat-label">Days</span>
         </div>
         <div className="journey-header__stat">
-          <span className="journey-header__stat-value">{projectStats.totalEras}</span>
+          <span className="journey-header__stat-value">{stats.totalEras}</span>
           <span className="journey-header__stat-label">Eras</span>
         </div>
       </div>
@@ -66,7 +68,7 @@ export default function Timeline({ data }: TimelineProps): ReactNode {
 
       <TrailMap eras={data} activeEraId={activeEraId} />
 
-      <JourneyHeader />
+      <JourneyHeader data={data} />
 
       <div className="era-list">
         {data.map((era, idx) => (

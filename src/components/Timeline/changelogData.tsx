@@ -172,10 +172,18 @@ export const eras: TimelineEra[] = [
   },
 ];
 
-/** Total project stats derived from era data */
+/** Compute project stats from any era array (supports merged historical + synced data). */
+export function computeProjectStats(allEras: TimelineEra[]) {
+  const totalCommits = allEras.reduce((sum, era) => sum + era.stats.commits, 0);
+  const totalDays = allEras.reduce((max, era) => {
+    const match = era.stats.dayRange.match(/(\d+)/g);
+    return match ? Math.max(max, ...match.map(Number)) : max;
+  }, 0);
+  return { totalCommits, totalDays, totalEras: allEras.length };
+}
+
+/** Total project stats derived from historical era data */
 export const projectStats = {
-  totalCommits: eras.reduce((sum, era) => sum + era.stats.commits, 0),
-  totalDays: 26,
-  totalEras: eras.length,
+  ...computeProjectStats(eras),
   dateRange: 'Feb 22 - Mar 19, 2026',
 };

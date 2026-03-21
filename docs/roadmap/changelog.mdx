@@ -6,10 +6,14 @@ hide_table_of_contents: true
 ---
 
 import Timeline from '@site/src/components/Timeline';
-import { eras } from '@site/src/components/Timeline/changelogData';
+import { eras as historicalEras, computeProjectStats } from '@site/src/components/Timeline/changelogData';
+import syncData from '@site/src/data/changelog-sync.json';
 
-MDD HQ was built from scratch in 26 days -- from an empty directory on February 22, 2026 to a production dashboard with 336 commits, 1,831 tests, and a 100/100 quality score. This is the full story.
+export const allEras = [...historicalEras, ...(syncData.eras || [])];
+export const stats = computeProjectStats(allEras);
 
-<Timeline data={eras} />
+MDD HQ has been built from scratch starting February 22, 2026. This is the full story -- from an empty directory to a production dashboard and beyond, updated daily.
 
-*To add entries, edit `src/components/Timeline/changelogData.tsx`.*
+<Timeline data={allEras} />
+
+*Changelog is automatically synced from MDD HQ development activity.*

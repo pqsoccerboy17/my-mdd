@@ -31,11 +31,24 @@ function TrailMapInner({ eras, activeEraId }: TrailMapProps) {
     }
   };
 
+  // Normalize trail positions: historical eras keep curated positions,
+  // synced eras (trailPosition === 0) get auto-computed positions
+  const normalizedEras = eras.map((era, idx) => ({
+    ...era,
+    trailPosition: era.trailPosition > 0
+      ? era.trailPosition
+      : Math.round(((idx + 1) / eras.length) * 100),
+  }));
+
+  // Derive day labels from the data
+  const lastDayMatch = normalizedEras[normalizedEras.length - 1]?.stats.dayRange.match(/(\d+)/g);
+  const lastDay = lastDayMatch ? Math.max(...lastDayMatch.map(Number)) : 26;
+
   return (
     <div className="trail-map">
       <div className="trail-map__header">
         <span className="trail-map__label">Day 1</span>
-        <span className="trail-map__label">Day 26</span>
+        <span className="trail-map__label">Day {lastDay}</span>
       </div>
       <div className="trail-map__track-container">
         <div className="trail-map__track" />
@@ -44,7 +57,7 @@ function TrailMapInner({ eras, activeEraId }: TrailMapProps) {
           style={{ width: `${scrollProgress}%` }}
         />
         <div className="trail-map__waypoints">
-          {eras.map((era) => (
+          {normalizedEras.map((era) => (
             <div
               key={era.id}
               className={clsx(
