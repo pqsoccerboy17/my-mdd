@@ -100,11 +100,7 @@ const sidebars: SidebarsConfig = {
       collapsible: false,
       collapsed: false,
       items: [
-        {
-          type: 'link',
-          label: 'Visual Planner',
-          href: '/roadmap',
-        },
+        'roadmap/visual-planner',
         'roadmap/wishlist',
         'roadmap/changelog',
       ],

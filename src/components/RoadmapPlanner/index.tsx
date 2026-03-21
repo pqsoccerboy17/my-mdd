@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import type { RoadmapItem, RoadmapStatus } from '../../data/roadmapData';
@@ -11,6 +11,14 @@ import TimelineView from './TimelineView';
 import KanbanView from './KanbanView';
 import DependencyGraph from './DependencyGraph';
 import FeatureDetail from './FeatureDetail';
+import '../../css/roadmap.css';
+
+const STATUS_DOT_COLORS: Record<string, string> = {
+  shipped: '#5A8F6B',
+  'in-progress': '#D4A853',
+  planned: '#2E7D9E',
+  backlog: '#7B8FA3',
+};
 
 /** Root component for the interactive roadmap planner. Manages state across views. */
 export default function RoadmapPlanner(): ReactNode {
@@ -18,6 +26,14 @@ export default function RoadmapPlanner(): ReactNode {
   const [filters, setFilters] = useState<RoadmapFilters>(emptyFilters);
   const [expandedItemId, setExpandedItemId] = useState<string | null>(null);
   const [items, setItems] = useState<RoadmapItem[]>(roadmapItems);
+
+  const stats = useMemo(() => {
+    const counts = { shipped: 0, 'in-progress': 0, planned: 0, backlog: 0 };
+    for (const item of roadmapItems) {
+      counts[item.status]++;
+    }
+    return counts;
+  }, []);
 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -47,7 +63,22 @@ export default function RoadmapPlanner(): ReactNode {
   }, []);
 
   return (
-    <>
+    <div className="roadmap-planner-wrapper">
+      <div className="roadmap-planner__stats">
+        {Object.entries(stats).map(([status, count]) => (
+          <div key={status} className="roadmap-planner__stat">
+            <span
+              className="roadmap-planner__stat-dot"
+              style={{ backgroundColor: STATUS_DOT_COLORS[status] }}
+            />
+            <span className="roadmap-planner__stat-count">{count}</span>
+            <span className="roadmap-planner__stat-label">
+              {status === 'in-progress' ? 'Active' : status.charAt(0).toUpperCase() + status.slice(1)}
+            </span>
+          </div>
+        ))}
+      </div>
+
       <ViewSwitcher activeView={activeView} onViewChange={setActiveView} />
       <FilterBar
         filters={filters}
@@ -86,6 +117,6 @@ export default function RoadmapPlanner(): ReactNode {
         onStatusChange={handleStatusChange}
         onItemClick={handleItemClick}
       />
-    </>
+    </div>
   );
 }
