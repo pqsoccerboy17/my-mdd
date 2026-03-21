@@ -1,17 +1,17 @@
 import type { ReactNode, CSSProperties } from 'react';
-import type { RoadmapItem } from '../../data/roadmapData';
+import type { RoadmapItem, RoadmapStatus, RoadmapPriority } from '../../data/roadmapData';
 import { GitBranch } from 'lucide-react';
 import clsx from 'clsx';
 import { AREA_COLORS } from '../../data/roadmapData';
 
-const STATUS_CLASS: Record<string, string> = {
+const STATUS_CLASS: Record<RoadmapStatus, string> = {
   shipped: 'roadmap-feature-card__badge--shipped',
   'in-progress': 'roadmap-feature-card__badge--in-progress',
   planned: 'roadmap-feature-card__badge--planned',
   backlog: 'roadmap-feature-card__badge--backlog',
 };
 
-const PRIORITY_CLASS: Record<string, string> = {
+const PRIORITY_CLASS: Record<RoadmapPriority, string> = {
   critical: 'roadmap-feature-card__badge--critical',
   high: 'roadmap-feature-card__badge--high',
   medium: 'roadmap-feature-card__badge--medium',

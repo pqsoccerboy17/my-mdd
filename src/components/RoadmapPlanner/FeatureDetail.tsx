@@ -7,13 +7,12 @@ import {
   AREA_COLORS,
   AREA_LABELS,
   STATUS_LABELS,
+  STATUSES,
   PRIORITY_LABELS,
   EFFORT_LABELS,
   PHASE_LABELS,
 } from '../../data/roadmapData';
 import { getDependencies, getDependents } from './helpers';
-
-const statuses: RoadmapStatus[] = ['backlog', 'planned', 'in-progress', 'shipped'];
 
 interface FeatureDetailProps {
   item: RoadmapItem | null;
@@ -68,7 +67,7 @@ export default function FeatureDetail({
             </div>
 
             <div className="roadmap-feature-detail__status-group">
-              {statuses.map((s) => (
+              {STATUSES.map((s) => (
                 <button
                   key={s}
                   type="button"

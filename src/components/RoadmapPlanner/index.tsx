@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import type { RoadmapItem, RoadmapStatus } from '../../data/roadmapData';
 import type { ViewMode, RoadmapFilters } from './types';
-import { roadmapItems } from '../../data/roadmapData';
+import { roadmapItems, STATUS_COLORS, STATUS_LABELS } from '../../data/roadmapData';
 import { filterItems, emptyFilters } from './helpers';
 import ViewSwitcher from './ViewSwitcher';
 import FilterBar from './FilterBar';
@@ -13,14 +13,6 @@ import DependencyGraph from './DependencyGraph';
 import FeatureDetail from './FeatureDetail';
 import '../../css/roadmap.css';
 
-const STATUS_DOT_COLORS: Record<string, string> = {
-  shipped: '#5A8F6B',
-  'in-progress': '#D4A853',
-  planned: '#2E7D9E',
-  backlog: '#7B8FA3',
-};
-
-/** Root component for the interactive roadmap planner. Manages state across views. */
 export default function RoadmapPlanner(): ReactNode {
   const [activeView, setActiveView] = useState<ViewMode>('timeline');
   const [filters, setFilters] = useState<RoadmapFilters>(emptyFilters);
@@ -28,12 +20,12 @@ export default function RoadmapPlanner(): ReactNode {
   const [items, setItems] = useState<RoadmapItem[]>(roadmapItems);
 
   const stats = useMemo(() => {
-    const counts = { shipped: 0, 'in-progress': 0, planned: 0, backlog: 0 };
-    for (const item of roadmapItems) {
+    const counts: Record<RoadmapStatus, number> = { shipped: 0, 'in-progress': 0, planned: 0, backlog: 0 };
+    for (const item of items) {
       counts[item.status]++;
     }
     return counts;
-  }, []);
+  }, [items]);
 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -43,7 +35,7 @@ export default function RoadmapPlanner(): ReactNode {
     return () => document.removeEventListener('keydown', handleEsc);
   }, []);
 
-  const filteredItems = filterItems(items, filters);
+  const filteredItems = useMemo(() => filterItems(items, filters), [items, filters]);
   const expandedItem = expandedItemId
     ? items.find((i) => i.id === expandedItemId) ?? null
     : null;
@@ -69,11 +61,11 @@ export default function RoadmapPlanner(): ReactNode {
           <div key={status} className="roadmap-planner__stat">
             <span
               className="roadmap-planner__stat-dot"
-              style={{ backgroundColor: STATUS_DOT_COLORS[status] }}
+              style={{ backgroundColor: STATUS_COLORS[status as RoadmapStatus] }}
             />
             <span className="roadmap-planner__stat-count">{count}</span>
             <span className="roadmap-planner__stat-label">
-              {status === 'in-progress' ? 'Active' : status.charAt(0).toUpperCase() + status.slice(1)}
+              {STATUS_LABELS[status as RoadmapStatus]}
             </span>
           </div>
         ))}

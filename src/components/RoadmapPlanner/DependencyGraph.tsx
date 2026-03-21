@@ -2,12 +2,10 @@ import { useState, useMemo, useCallback, useRef } from 'react';
 import type { ReactNode, WheelEvent as ReactWheelEvent, MouseEvent as ReactMouseEvent } from 'react';
 import type { RoadmapItem, RoadmapArea } from '../../data/roadmapData';
 import type { ViewProps } from './types';
-import { AREA_COLORS } from '../../data/roadmapData';
+import { AREA_COLORS, STATUS_COLORS } from '../../data/roadmapData';
 import { getDependencies, getDependents } from './helpers';
 import { RotateCcw } from 'lucide-react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
-
-// ---- Constants ----
 
 const NODE_WIDTH = 200;
 const NODE_HEIGHT = 60;
@@ -15,13 +13,6 @@ const GAP_X = 80;
 const GAP_Y = 20;
 const PADDING = 40;
 const STATUS_RADIUS = 4;
-
-const STATUS_COLORS: Record<string, string> = {
-  shipped: '#5A8F6B',
-  'in-progress': '#D4A853',
-  planned: '#2E7D9E',
-  backlog: '#7B8FA3',
-};
 
 // ---- Layout types ----
 
@@ -367,14 +358,16 @@ function DependencyGraphInner({ items, onItemClick }: ViewProps): ReactNode {
     [highlightedIds],
   );
 
-  // Pan handlers
+  const transformRef = useRef(transform);
+  transformRef.current = transform;
+
   const handleMouseDown = useCallback(
     (e: ReactMouseEvent<SVGSVGElement>) => {
       if ((e.target as Element).closest('.roadmap-graph__node')) return;
       isPanning.current = true;
-      panStart.current = { x: e.clientX - transform.x, y: e.clientY - transform.y };
+      panStart.current = { x: e.clientX - transformRef.current.x, y: e.clientY - transformRef.current.y };
     },
-    [transform.x, transform.y],
+    [],
   );
 
   const handleMouseMove = useCallback(
@@ -406,8 +399,6 @@ function DependencyGraphInner({ items, onItemClick }: ViewProps): ReactNode {
   const resetView = useCallback(() => {
     setTransform({ x: 0, y: 0, scale: 1 });
   }, []);
-
-  const allNodes = [...layout.nodes, ...layout.standaloneNodes];
 
   if (items.length === 0) {
     return (

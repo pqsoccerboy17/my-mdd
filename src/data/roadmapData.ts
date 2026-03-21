@@ -75,7 +75,18 @@ export const PRIORITY_LABELS: Record<RoadmapPriority, string> = {
   low: 'Low',
 };
 
-export const EFFORT_LABELS: Record<string, string> = {
+export const STATUS_COLORS: Record<RoadmapStatus, string> = {
+  shipped: '#5A8F6B',
+  'in-progress': '#D4A853',
+  planned: '#2E7D9E',
+  backlog: '#7B8FA3',
+};
+
+export const STATUSES: RoadmapStatus[] = ['backlog', 'planned', 'in-progress', 'shipped'];
+
+export type Effort = 'S' | 'M' | 'L' | 'XL';
+
+export const EFFORT_LABELS: Record<Effort, string> = {
   S: 'Small',
   M: 'Medium',
   L: 'Large',

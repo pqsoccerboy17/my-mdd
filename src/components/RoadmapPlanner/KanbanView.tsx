@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import type { ViewProps } from './types';
 import type { RoadmapItem, RoadmapStatus } from '../../data/roadmapData';
@@ -18,11 +18,9 @@ import {
   useSortable,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { STATUS_LABELS } from '../../data/roadmapData';
+import { STATUS_LABELS, STATUSES } from '../../data/roadmapData';
 import { groupByStatus, sortByPriority } from './helpers';
 import FeatureCard from './FeatureCard';
-
-const KANBAN_COLUMNS: RoadmapStatus[] = ['backlog', 'planned', 'in-progress', 'shipped'];
 
 // ---------------------------------------------------------------------------
 // SortableCard -- wraps FeatureCard with @dnd-kit sortable behavior
@@ -74,7 +72,7 @@ interface KanbanBoardProps extends ViewProps {
 
 function KanbanBoard({ items, onItemClick, onStatusChange }: KanbanBoardProps): ReactNode {
   const [activeItem, setActiveItem] = useState<RoadmapItem | null>(null);
-  const statusGroups = groupByStatus(items);
+  const statusGroups = useMemo(() => groupByStatus(items), [items]);
 
   const handleDragStart = useCallback(
     (event: DragStartEvent) => {
@@ -97,11 +95,11 @@ function KanbanBoard({ items, onItemClick, onStatusChange }: KanbanBoardProps): 
       // column that the target card belongs to.
       let targetStatus: RoadmapStatus | undefined;
 
-      if (KANBAN_COLUMNS.includes(overId as RoadmapStatus)) {
+      if (STATUSES.includes(overId as RoadmapStatus)) {
         targetStatus = overId as RoadmapStatus;
       } else {
         // Dropped over another card -- find which column it belongs to
-        for (const status of KANBAN_COLUMNS) {
+        for (const status of STATUSES) {
           if (statusGroups[status].some((i) => i.id === overId)) {
             targetStatus = status;
             break;
@@ -126,7 +124,7 @@ function KanbanBoard({ items, onItemClick, onStatusChange }: KanbanBoardProps): 
       onDragEnd={handleDragEnd}
     >
       <div className="roadmap-kanban">
-        {KANBAN_COLUMNS.map((status) => {
+        {STATUSES.map((status) => {
           const columnItems = sortByPriority(statusGroups[status]);
           const ids = columnItems.map((i) => i.id);
 
@@ -195,7 +193,7 @@ function KanbanFallback({ items, onItemClick }: ViewProps): ReactNode {
 
   return (
     <div className="roadmap-kanban">
-      {KANBAN_COLUMNS.map((status) => {
+      {STATUSES.map((status) => {
         const columnItems = sortByPriority(statusGroups[status]);
 
         return (

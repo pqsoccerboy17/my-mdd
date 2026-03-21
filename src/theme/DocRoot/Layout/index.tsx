@@ -1,4 +1,4 @@
-import React, {type ReactNode, useState, useEffect, useCallback} from 'react';
+import React, {type ReactNode, useState, useEffect, useCallback, useRef} from 'react';
 import {useDocsSidebar} from '@docusaurus/plugin-content-docs/client';
 import {useColorMode} from '@docusaurus/theme-common';
 import BackToTopButton from '@theme/BackToTopButton';
@@ -15,6 +15,9 @@ export default function DocRootLayout({children}: Props): ReactNode {
   const {setColorMode, colorMode} = useColorMode();
   const [showHint, setShowHint] = useState(false);
 
+  const colorModeRef = useRef(colorMode);
+  colorModeRef.current = colorMode;
+
   const toggleSidebar = useCallback(() => {
     setHiddenSidebarContainer((prev) => !prev);
   }, []);
@@ -28,7 +31,7 @@ export default function DocRootLayout({children}: Props): ReactNode {
 
       if (e.metaKey && e.shiftKey && (e.key === 'l' || e.key === 'L')) {
         e.preventDefault();
-        setColorMode(colorMode === 'dark' ? 'light' : 'dark');
+        setColorMode(colorModeRef.current === 'dark' ? 'light' : 'dark');
       }
 
       if (e.metaKey && e.key === '/') {
@@ -39,7 +42,7 @@ export default function DocRootLayout({children}: Props): ReactNode {
 
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
-  }, [toggleSidebar, colorMode, setColorMode]);
+  }, [toggleSidebar, setColorMode]);
 
   return (
     <div className={styles.docsWrapper}>
