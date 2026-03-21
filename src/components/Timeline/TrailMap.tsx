@@ -1,7 +1,8 @@
-import { useEffect, useState, useId } from 'react';
+import { useEffect, useState } from 'react';
 import type { TimelineEra } from './types';
 import clsx from 'clsx';
 import BrowserOnly from '@docusaurus/BrowserOnly';
+import { getMaxDay, scrollToEra } from './utils';
 
 interface TrailMapProps {
   eras: TimelineEra[];
@@ -24,15 +25,6 @@ function TrailMapInner({ eras, activeEraId }: TrailMapProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToEra = (eraId: string) => {
-    const el = document.getElementById(`era-${eraId}`);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
-  // Normalize trail positions: historical eras keep curated positions,
-  // synced eras (trailPosition === 0) get auto-computed positions
   const normalizedEras = eras.map((era, idx) => ({
     ...era,
     trailPosition: era.trailPosition > 0
@@ -40,9 +32,8 @@ function TrailMapInner({ eras, activeEraId }: TrailMapProps) {
       : Math.round(((idx + 1) / eras.length) * 100),
   }));
 
-  // Derive day labels from the data
-  const lastDayMatch = normalizedEras[normalizedEras.length - 1]?.stats.dayRange.match(/(\d+)/g);
-  const lastDay = lastDayMatch ? Math.max(...lastDayMatch.map(Number)) : 26;
+  const lastEra = normalizedEras[normalizedEras.length - 1];
+  const lastDay = lastEra ? getMaxDay(lastEra) || 26 : 26;
 
   return (
     <div className="trail-map">

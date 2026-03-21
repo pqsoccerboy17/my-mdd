@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
-import type { TimelineProps } from './types';
-import type { TimelineEra } from './types';
+import type { TimelineProps, TimelineEra } from './types';
 import TrailMap from './TrailMap';
 import EraCard from './EraCard';
 import ChapterIndex from './ChapterIndex';
@@ -10,7 +9,7 @@ import { computeProjectStats } from './changelogData';
 import { getMinDay } from './utils';
 
 function JourneyHeader({ data }: { data: TimelineEra[] }): ReactNode {
-  const stats = computeProjectStats(data);
+  const stats = useMemo(() => computeProjectStats(data), [data]);
   return (
     <div className="journey-header">
       <h2 className="journey-header__title">The Journey</h2>

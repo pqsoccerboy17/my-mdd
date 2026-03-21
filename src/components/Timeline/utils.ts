@@ -13,22 +13,32 @@ export function getDominantCategory(era: TimelineEra): ChangeCategory {
     .sort((a, b) => b[1] - a[1])[0][0];
 }
 
-/** Extracts the max day number from an era's dayRange string (e.g. "Days 7-12" -> 12). */
-export function getMaxDay(era: TimelineEra): number {
-  const match = era.stats.dayRange.match(/(\d+)/g);
-  return match ? Math.max(...match.map(Number)) : 0;
+function parseDayNumbers(era: TimelineEra): number[] {
+  return era.stats.dayRange.match(/(\d+)/g)?.map(Number) ?? [];
 }
 
-/** Extracts the min day number from an era's dayRange string (e.g. "Days 7-12" -> 7). */
+export function getMaxDay(era: TimelineEra): number {
+  const days = parseDayNumbers(era);
+  return days.length ? Math.max(...days) : 0;
+}
+
 export function getMinDay(era: TimelineEra): number {
-  const match = era.stats.dayRange.match(/(\d+)/g);
-  return match ? Math.min(...match.map(Number)) : 0;
+  const days = parseDayNumbers(era);
+  return days.length ? Math.min(...days) : 0;
+}
+
+/** Scroll to an era card by ID with smooth animation. */
+export function scrollToEra(eraId: string): void {
+  const el = document.getElementById(`era-${eraId}`);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 /** Category accent colors matching the era-card CSS variables. */
 export const CATEGORY_COLORS: Record<ChangeCategory, string> = {
   feature: '#C85A3A',
-  infrastructure: '#7B8FA3',
+  infrastructure: '#2E7D9E',
   quality: '#5A8F6B',
-  design: '#D4A853',
+  design: '#E8956F',
 };

@@ -1058,6 +1058,8 @@
 
 .chapter-index__list {
   padding: 0.25rem 0;
+  list-style: none;
+  margin: 0;
 }
 
 .chapter-index__item {
@@ -1084,7 +1086,6 @@
 
 .chapter-index__item--active {
   background: rgba(200, 90, 58, 0.06);
-  border-left-width: 3px;
 }
 [data-theme='dark'] .chapter-index__item--active {
   background: rgba(200, 90, 58, 0.1);
@@ -1126,7 +1127,7 @@
   color: #7B8FA3;
 }
 [data-theme='dark'] .chapter-index__days {
-  color: #7B8FA3;
+  color: #9BAFC3;
 }
 
 .chapter-index__commits {
