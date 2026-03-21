@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import type { ViewProps } from './types';
 import type { RoadmapItem, RoadmapStatus } from '../../data/roadmapData';
 import clsx from 'clsx';
+import { SearchX } from 'lucide-react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import {
   DndContext,
@@ -152,16 +153,20 @@ function KanbanBoard({ items, onItemClick, onStatusChange }: KanbanBoardProps): 
                 strategy={verticalListSortingStrategy}
               >
                 <div className="roadmap-kanban__column-body">
-                  {columnItems.map((item) => (
-                    <SortableCard
-                      key={item.id}
-                      item={item}
-                      onItemClick={onItemClick}
-                    />
+                  {columnItems.map((item, idx) => (
+                    <div key={item.id} style={{ '--stagger-index': String(idx) } as React.CSSProperties}>
+                      <SortableCard
+                        item={item}
+                        onItemClick={onItemClick}
+                      />
+                    </div>
                   ))}
 
                   {columnItems.length === 0 && (
-                    <p className="roadmap-kanban__empty">No items</p>
+                    <div className="roadmap-empty-state">
+                      <SearchX size={24} className="roadmap-empty-state__icon" />
+                      <p className="roadmap-empty-state__text">Drop items here</p>
+                    </div>
                   )}
                 </div>
               </SortableContext>
@@ -211,8 +216,8 @@ function KanbanFallback({ items, onItemClick }: ViewProps): ReactNode {
             </div>
 
             <div className="roadmap-kanban__column-body">
-              {columnItems.map((item) => (
-                <div key={item.id} className="roadmap-kanban__sortable-card">
+              {columnItems.map((item, idx) => (
+                <div key={item.id} className="roadmap-kanban__sortable-card" style={{ '--stagger-index': String(idx) } as React.CSSProperties}>
                   <FeatureCard
                     item={item}
                     onClick={onItemClick}
@@ -221,7 +226,10 @@ function KanbanFallback({ items, onItemClick }: ViewProps): ReactNode {
               ))}
 
               {columnItems.length === 0 && (
-                <p className="roadmap-kanban__empty">No items</p>
+                <div className="roadmap-empty-state">
+                  <SearchX size={24} className="roadmap-empty-state__icon" />
+                  <p className="roadmap-empty-state__text">Drop items here</p>
+                </div>
               )}
             </div>
           </div>

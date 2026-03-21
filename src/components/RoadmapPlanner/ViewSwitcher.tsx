@@ -17,7 +17,7 @@ interface ViewSwitcherProps {
 /** Toggle buttons to switch between timeline, graph, and kanban views. */
 export default function ViewSwitcher({ activeView, onViewChange }: ViewSwitcherProps): ReactNode {
   return (
-    <div className="roadmap-view-switcher">
+    <div className="roadmap-view-switcher" role="tablist" aria-label="View mode">
       {views.map(({ id, label, Icon }) => {
         const isActive = id === activeView;
 
@@ -27,7 +27,8 @@ export default function ViewSwitcher({ activeView, onViewChange }: ViewSwitcherP
             type="button"
             className={clsx('roadmap-view-switcher__btn', isActive && 'roadmap-view-switcher__btn--active')}
             onClick={() => onViewChange(id)}
-            aria-pressed={isActive}
+            role="tab"
+            aria-selected={isActive}
           >
             <Icon className="roadmap-view-switcher__icon" size={18} />
             <span className="roadmap-view-switcher__label">{label}</span>

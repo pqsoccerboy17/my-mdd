@@ -17,10 +17,10 @@ const PADDING = 40;
 const STATUS_RADIUS = 4;
 
 const STATUS_COLORS: Record<string, string> = {
-  shipped: '#22c55e',
-  'in-progress': '#f59e0b',
-  planned: '#3b82f6',
-  backlog: '#9ca3af',
+  shipped: '#5A8F6B',
+  'in-progress': '#D4A853',
+  planned: '#2E7D9E',
+  backlog: '#7B8FA3',
 };
 
 // ---- Layout types ----

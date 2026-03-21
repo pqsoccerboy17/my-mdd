@@ -1,5 +1,6 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import type { ReactNode } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import type { RoadmapItem, RoadmapStatus } from '../../data/roadmapData';
 import type { ViewMode, RoadmapFilters } from './types';
 import { roadmapItems } from '../../data/roadmapData';
@@ -17,6 +18,14 @@ export default function RoadmapPlanner(): ReactNode {
   const [filters, setFilters] = useState<RoadmapFilters>(emptyFilters);
   const [expandedItemId, setExpandedItemId] = useState<string | null>(null);
   const [items, setItems] = useState<RoadmapItem[]>(roadmapItems);
+
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setExpandedItemId(null);
+    };
+    document.addEventListener('keydown', handleEsc);
+    return () => document.removeEventListener('keydown', handleEsc);
+  }, []);
 
   const filteredItems = filterItems(items, filters);
   const expandedItem = expandedItemId
@@ -46,21 +55,29 @@ export default function RoadmapPlanner(): ReactNode {
         itemCount={filteredItems.length}
       />
 
-      {activeView === 'timeline' && (
-        <TimelineView items={filteredItems} onItemClick={handleItemClick} />
-      )}
-
-      {activeView === 'kanban' && (
-        <KanbanView
-          items={filteredItems}
-          onItemClick={handleItemClick}
-          onStatusChange={handleStatusChange}
-        />
-      )}
-
-      {activeView === 'graph' && (
-        <DependencyGraph items={filteredItems} onItemClick={handleItemClick} />
-      )}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeView}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.25, ease: 'easeOut' }}
+        >
+          {activeView === 'timeline' && (
+            <TimelineView items={filteredItems} onItemClick={handleItemClick} />
+          )}
+          {activeView === 'kanban' && (
+            <KanbanView
+              items={filteredItems}
+              onItemClick={handleItemClick}
+              onStatusChange={handleStatusChange}
+            />
+          )}
+          {activeView === 'graph' && (
+            <DependencyGraph items={filteredItems} onItemClick={handleItemClick} />
+          )}
+        </motion.div>
+      </AnimatePresence>
 
       <FeatureDetail
         item={expandedItem}

@@ -53,6 +53,7 @@ export default function FeatureDetail({
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            style={{ scrollBehavior: 'smooth' }}
           >
             <div className="roadmap-feature-detail__header">
               <h2 className="roadmap-feature-detail__title">{item.title}</h2>
@@ -113,6 +114,8 @@ export default function FeatureDetail({
             {item.description && (
               <p className="roadmap-feature-detail__description">{item.description}</p>
             )}
+
+            <hr className="roadmap-feature-detail__divider" />
 
             {dependencies.length > 0 && (
               <div className="roadmap-feature-detail__section">
@@ -177,6 +180,8 @@ export default function FeatureDetail({
                 </a>
               </div>
             )}
+
+            <hr className="roadmap-feature-detail__divider" />
 
             {item.tags && item.tags.length > 0 && (
               <div className="roadmap-feature-detail__tags">

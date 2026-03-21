@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import type { ViewProps } from './types';
 import type { RoadmapArea, RoadmapPhase } from '../../data/roadmapData';
 import clsx from 'clsx';
+import { SearchX } from 'lucide-react';
 import { PHASE_LABELS, AREA_LABELS, AREA_COLORS } from '../../data/roadmapData';
 import { groupByPhase, groupByArea, sortByPriority } from './helpers';
 import FeatureCard from './FeatureCard';
@@ -68,7 +69,7 @@ export default function TimelineView({ items, onItemClick }: ViewProps): ReactNo
                     </div>
 
                     <div className="roadmap-timeline__area-items">
-                      {sorted.map((item) => {
+                      {sorted.map((item, itemIdx) => {
                         const units = item.effort
                           ? EFFORT_UNITS[item.effort] ?? 1
                           : 1;
@@ -77,7 +78,7 @@ export default function TimelineView({ items, onItemClick }: ViewProps): ReactNo
                           <div
                             key={item.id}
                             className="roadmap-timeline__bar-wrapper"
-                            style={{ flex: `${units} 0 0%` }}
+                            style={{ flex: `${units} 0 0%`, '--stagger-index': String(itemIdx) } as React.CSSProperties}
                           >
                             <FeatureCard
                               item={item}
@@ -92,7 +93,10 @@ export default function TimelineView({ items, onItemClick }: ViewProps): ReactNo
               })}
 
               {phaseItems.length === 0 && (
-                <p className="roadmap-timeline__empty">No items in this phase.</p>
+                <div className="roadmap-empty-state">
+                  <SearchX size={28} className="roadmap-empty-state__icon" />
+                  <p className="roadmap-empty-state__text">No items in this phase</p>
+                </div>
               )}
             </div>
           </div>
