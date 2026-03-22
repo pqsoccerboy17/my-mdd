@@ -1,7 +1,20 @@
 {
-  "lastSyncedSha": "a584232dc8a68004d1a3ea4e93c0f583a4cfb123",
-  "lastSyncedDate": "2026-03-21T19:21:55Z",
-  "pending": [],
+  "lastSyncedSha": "8e34fc5ea652c9c266c42a40811a03868bb0b43c",
+  "lastSyncedDate": "2026-03-21T20:21:00Z",
+  "pending": [
+    {
+      "sha": "cd4d73d78ef9797f963ae5fa4262de4afcad8452",
+      "message": "fix: design system compliance, accessibility, and spec updates\n\n- Add shadow elevation + hover feedback to WidgetCard (design system rule)\n- Fix modal backdrop role=\"presentation\" in ImportModal and ShortcutsModal\n- Replace hardcoded #fff in TaskCheckbox with var(--color-on-accent)\n- Update master-plan.md with March 21 status audit\n- Update gap-analysis.md with resolved gaps (auth, serverless, SonarCloud)\n\nCo-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>",
+      "date": "2026-03-21T20:19:23Z",
+      "day": 28
+    },
+    {
+      "sha": "3827cb8ff0e5ffd3bdf49dc410e9aae3a91866a8",
+      "message": "refactor: migrate raw localStorage to storage.js + add 44 new tests\n\n- Migrate 11 files from raw localStorage to getStorageItem/setStorageItem\n- Update 5 consulting page callers to prevent double-prefixing\n- Update 5 existing test files for versioned storage format\n- Add useTaskPipeline tests (18 tests)\n- Add useKeyboardShortcuts tests (8 tests)\n- Add useContactEnrichmentBatch tests (8 tests)\n- Add useContactDeals tests (10 tests)\n\nCo-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>",
+      "date": "2026-03-21T20:20:43Z",
+      "day": 28
+    }
+  ],
   "eras": [
     {
       "id": "enterprise-foundation",
