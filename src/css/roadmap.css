@@ -728,6 +728,8 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 1.25rem;
   min-height: 400px;
+  overflow-x: auto;
+  min-width: 0;
 }
 
 @media (max-width: 900px) {
@@ -749,6 +751,7 @@
   border-radius: 10px;
   padding: 1rem;
   min-height: 200px;
+  min-width: 260px;
   opacity: 0;
   animation: roadmapFadeIn 0.5s ease forwards;
 }
