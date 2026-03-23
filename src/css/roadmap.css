@@ -15,6 +15,7 @@
 }
 
 /* ---- Focus States (global) ---- */
+.roadmap-section-tabs__btn:focus-visible,
 .roadmap-feature-card:focus-visible,
 .roadmap-view-switcher__btn:focus-visible,
 .roadmap-filter-bar__area-pill:focus-visible,
@@ -27,6 +28,41 @@
 .roadmap-graph__reset-btn:focus-visible {
   outline: 2px solid var(--ifm-color-primary);
   outline-offset: 2px;
+}
+
+/* ---- Section Tabs (underline style) ---- */
+.roadmap-section-tabs {
+  display: flex;
+  gap: 2rem;
+  border-bottom: 1px solid rgba(200, 90, 58, 0.15);
+  margin-bottom: 1.5rem;
+}
+
+.roadmap-section-tabs__btn {
+  padding: 0.75rem 0.25rem;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--ifm-font-color-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.roadmap-section-tabs__btn:hover {
+  color: var(--ifm-font-color-base);
+}
+
+.roadmap-section-tabs__btn--active {
+  color: var(--ifm-font-color-base);
+  font-weight: 600;
+  border-bottom-color: var(--ifm-color-primary);
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
 }
 
 /* ---- Planner Wrapper (breaks out of 960px docs content) ---- */

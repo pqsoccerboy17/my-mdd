@@ -24,7 +24,7 @@ import { LayoutDashboard, ListTodo, Database, RefreshCw, Briefcase, Wallet, Cred
 
 <div className="landing-hero__cta">
   <Link to="/features/task-manager" className="landing-hero__btn landing-hero__btn--primary">Explore Features</Link>
-  <Link to="/roadmap/visual-planner" className="landing-hero__btn landing-hero__btn--secondary">View Roadmap</Link>
+  <Link to="/roadmap" className="landing-hero__btn landing-hero__btn--secondary">View Roadmap</Link>
 </div>
 
 </div>
@@ -230,21 +230,8 @@ import { LayoutDashboard, ListTodo, Database, RefreshCw, Briefcase, Wallet, Cred
 <div className="card-grid">
   <Card
     icon={<Sparkles size={24} />}
-    title="Visual Planner"
-    description="Interactive roadmap with timeline, dependency graph, and kanban views."
-    href="/roadmap/visual-planner"
-    badge="NEW"
-  />
-  <Card
-    icon={<Map size={24} />}
-    title="Wishlist"
-    description="Planned features, integrations to explore, and evaluation criteria."
-    href="/roadmap/wishlist"
-  />
-  <Card
-    icon={<Map size={24} />}
-    title="Changelog"
-    description="What changed and when -- reverse-chronological history of MDD HQ."
-    href="/roadmap/changelog"
+    title="Roadmap"
+    description="Interactive planner with timeline, dependency graph, kanban views, and full changelog."
+    href="/roadmap"
   />
 </div>

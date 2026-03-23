@@ -19,14 +19,14 @@ export const whatsNewItems: WhatsNewItem[] = [
   {
     title: 'Visual Roadmap Planner',
     description: 'Interactive roadmap with timeline, dependency graph, and kanban views.',
-    href: '/roadmap/visual-planner',
+    href: '/roadmap',
     date: 'Mar 2026',
     category: 'feature',
   },
   {
     title: 'Roadmap Audit',
     description: '9 roadmap items verified and promoted to shipped status.',
-    href: '/roadmap/visual-planner',
+    href: '/roadmap',
     date: 'Mar 2026',
     category: 'data',
   },

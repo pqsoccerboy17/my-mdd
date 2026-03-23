@@ -25,11 +25,8 @@ export default function Footer(): React.ReactElement {
           <a href="/guides/getting-started" className="site-footer__link">
             Getting Started
           </a>
-          <a href="/roadmap/visual-planner" className="site-footer__link">
-            Visual Roadmap
-          </a>
-          <a href="/roadmap/changelog" className="site-footer__link">
-            Changelog
+          <a href="/roadmap" className="site-footer__link">
+            Roadmap
           </a>
           <a href="/guides/testing" className="site-footer__link">
             Testing

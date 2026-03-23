@@ -105,9 +105,7 @@ const sidebars: SidebarsConfig = {
       collapsible: false,
       collapsed: false,
       items: [
-        'roadmap/visual-planner',
-        'roadmap/wishlist',
-        'roadmap/changelog',
+        'roadmap/index',
         {
           type: 'category',
           label: 'Archive',

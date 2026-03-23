@@ -27,7 +27,7 @@ export default function WhatsNew() {
         ))}
       </div>
       <div className="whats-new__footer">
-        <Link to="/roadmap/changelog" className="whats-new__link">
+        <Link to="/roadmap" className="whats-new__link">
           View full changelog
         </Link>
       </div>

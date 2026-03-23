@@ -5,7 +5,7 @@ sidebar_position: 4
 ---
 
 :::info Archived
-This spec has been archived as of March 2026. M5 infrastructure is selectively deferred per the [Q2 2026 Roadmap](/roadmap/visual-planner). Key components will be revisited based on throughput needs.
+This spec has been archived as of March 2026. M5 infrastructure is selectively deferred per the [Q2 2026 Roadmap](/roadmap). Key components will be revisited based on throughput needs.
 :::
 
 # M5 System Architecture -- Master Plan

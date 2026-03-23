@@ -5,7 +5,7 @@ sidebar_position: 5
 ---
 
 :::info Archived
-This spec is retained for reference. DeepWiki indexing depends on Devin integration, which is deferred per the [Q2 2026 Roadmap](/roadmap/visual-planner).
+This spec is retained for reference. DeepWiki indexing depends on Devin integration, which is deferred per the [Q2 2026 Roadmap](/roadmap).
 :::
 
 # DeepWiki Intelligence Plan
