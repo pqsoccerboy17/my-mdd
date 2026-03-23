@@ -4,6 +4,10 @@ sidebar_label: DeepWiki Research
 sidebar_position: 5
 ---
 
+:::info Archived
+This spec is retained for reference. DeepWiki indexing depends on Devin integration, which is deferred per the [Q2 2026 Roadmap](/roadmap/visual-planner).
+:::
+
 # DeepWiki Intelligence Plan
 
 **Purpose:** Use DeepWiki to study, deconstruct, and port the best open source work into our stack.
@@ -224,4 +228,4 @@ When porting from DeepWiki findings:
 ---
 
 *Update this doc after each research session with findings, dead ends, and confirmed ports.*
-*Full spec: MDD/specs/deepwiki-intelligence-plan.md*
+*Full spec: MDD/specs/archive/deepwiki-intelligence-plan.md*

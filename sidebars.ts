@@ -106,10 +106,17 @@ const sidebars: SidebarsConfig = {
       collapsed: false,
       items: [
         'roadmap/visual-planner',
-        'roadmap/m5-system-architecture',
-        'roadmap/deepwiki-intelligence-plan',
         'roadmap/wishlist',
         'roadmap/changelog',
+        {
+          type: 'category',
+          label: 'Archive',
+          collapsed: true,
+          items: [
+            'roadmap/m5-system-architecture',
+            'roadmap/deepwiki-intelligence-plan',
+          ],
+        },
       ],
     },
   ],

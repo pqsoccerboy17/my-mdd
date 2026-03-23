@@ -4,6 +4,10 @@ sidebar_label: M5 System Plan
 sidebar_position: 4
 ---
 
+:::info Archived
+This spec has been archived as of March 2026. M5 infrastructure is selectively deferred per the [Q2 2026 Roadmap](/roadmap/visual-planner). Key components will be revisited based on throughput needs.
+:::
+
 # M5 System Architecture -- Master Plan
 
 **Status:** Planning (pre-arrival) | **Hardware:** MacBook Pro 14", M5 Pro | **Expected:** Late March 2026
@@ -364,6 +368,6 @@ Run through Claude Code CLI with DeepWiki MCP on M5:
 
 ---
 
-*Full spec with code examples: `MDD/specs/m5-system-architecture.md`*
-*Open source research playbook: `MDD/specs/deepwiki-intelligence-plan.md`*
+*Full spec with code examples: `MDD/specs/archive/m5-system-architecture.md`*
+*Open source research playbook: `MDD/specs/archive/deepwiki-intelligence-plan.md`*
 *Updated: 2026-03-21*
