@@ -1,20 +1,7 @@
 {
-  "lastSyncedSha": "57cce13f515d20c0002f6c6c4dc7be9c779d1165",
-  "lastSyncedDate": "2026-04-09T04:28:45Z",
-  "pending": [
-    {
-      "sha": "ceaa2b435cb646367a004fd1a7aa7a25b18cfdc7",
-      "message": "docs(yelin-split): mark phase-3 complete and add plan file (#48)\n\nPhase 3 lifted the full consulting frontend into Yelin in one PR\n(pqsoccerboy17/Mycel#7 -> a80faa7):\n\n- Data layer: 17 lib files + src/data/demo-ai-data.js + 5 contexts\n  (incl. ThemeContext) + 32 hooks (20 MOVE + 4 ORPHAN MOVE + 8 COPY;\n  useSidebar + useKeyboardShortcuts excluded per architect finding D)\n- Task 8.0: added DEMO_MODE flag to Yelin launchdarkly.js\n- Task 8: atomic useClients shim swap (15-line shim -> 337-line real)\n- 64 consulting components (4 excluded: PortalTransition, MountainScene,\n  MountainTransition, PortalNavBar per architect findings V+W)\n- ConsultingSidebar \"Back to MDD\" patched post-rsync to external URL\n- 13 AI components + 2 pricing components + 6 shared UI primitives\n- ConsultingLayout verbatim\n- 20 pages preserving nested src/pages/consulting/ structure\n  (Consulting.jsx excluded per architect finding V)\n- LoginPage + UpdatePasswordPage (architect finding K)\n- App.jsx rewrite with full provider stack (ErrorBoundary -> ThemeProvider\n  -> AuthProvider -> LaunchDarklyWrapper -> BrowserRouter) mounting\n  routes under /consulting/* matching MDD's URL structure exactly\n- 6 npm packages added (@dnd-kit/core, react-window 1.8.11 pinned,\n  recharts, cmdk, react-hotkeys-hook)\n- 44 test files lifted preserving nested structure\n\nVerification:\n- Lint: 0 errors, 5 warnings (baseline)\n- Tests: 46 files, 726 passing\n- Build: exit 0, 185ms, 2.3 MB dist, 116 chunks, 0 cycle warnings\n- Dev server: all 16 routes return 200\n- Preview deployed: https://yelin-split-phase-3-pages.yelin-2gl.pages.dev\n- Visual verification confirmed by Mike after switching from team-email\n  to Supabase Auth session (unrelated RLS issue surfaced during testing)\n\nBonus Supabase config cleanup done during Task 22:\n- Site URL fixed: https://mdd-hq.vercel.app -> https://mdd-hq.pages.dev\n- Added https://mdd-hq.pages.dev/** to redirect URL allowlist\n\nPhase 4 (API executors) is now unblocked. No MDD source touched.\n\nIncludes the Phase 3 plan file (2026-04-07-yelin-split-phase-3-pages.md)\nwith State Snapshot filled in.\n\nCo-authored-by: Claude Opus 4.6 (1M context) <noreply@anthropic.com>",
-      "date": "2026-04-09T04:27:10Z",
-      "day": 46
-    },
-    {
-      "sha": "57cce13f515d20c0002f6c6c4dc7be9c779d1165",
-      "message": "docs(yelin-split): backfill phase-3 MDD merge SHA (#49)\n\nUpdates the overview Phase 3 row with the real MDD merge SHA\n(ceaa2b4) now that PR #48 has merged. Also updates the Phase 3\nplan file's State Snapshot with the same SHA + PR number.\n\nCo-authored-by: Claude Opus 4.6 (1M context) <noreply@anthropic.com>",
-      "date": "2026-04-09T04:28:45Z",
-      "day": 46
-    }
-  ],
+  "lastSyncedSha": "a691fa485a8312e74f8ef301dbc563f071e05bcb",
+  "lastSyncedDate": "2026-04-10T03:35:55Z",
+  "pending": [],
   "eras": [
     {
       "id": "enterprise-foundation",
@@ -967,6 +954,41 @@
         "commits": 4,
         "dayRange": "Day 45",
         "dateRange": "Apr 7, 2026",
+        "highlights": 2
+      },
+      "trailPosition": 0
+    },
+    {
+      "id": "separation-campaign",
+      "title": "Separation Campaign",
+      "subtitle": "Codebase Split Execution Phase",
+      "description": "The expedition methodically severed the consulting platform from the core MDD system through a series of surgical phases. Multiple code extraction operations removed consulting artifacts, cleaned database queries, and eliminated stale redirects.",
+      "changes": [
+        {
+          "text": "Completed documentation tracking for phases 3 through 5 of the codebase split",
+          "category": "infrastructure",
+          "notable": false
+        },
+        {
+          "text": "Stripped all consulting-related code from the MDD codebase",
+          "category": "infrastructure",
+          "notable": true
+        },
+        {
+          "text": "Added task_type WHERE clause filtering and cleaned MDD cron operations",
+          "category": "infrastructure",
+          "notable": true
+        },
+        {
+          "text": "Removed stale consulting redirect from routing configuration",
+          "category": "infrastructure",
+          "notable": false
+        }
+      ],
+      "stats": {
+        "commits": 10,
+        "dayRange": "Days 46-47",
+        "dateRange": "Apr 9, 2026 - Apr 10, 2026",
         "highlights": 2
       },
       "trailPosition": 0
