@@ -1,6 +1,6 @@
 {
-  "lastSyncedSha": "a691fa485a8312e74f8ef301dbc563f071e05bcb",
-  "lastSyncedDate": "2026-04-10T03:35:55Z",
+  "lastSyncedSha": "dacb11361eefdffecca121d90a67f955225abbea",
+  "lastSyncedDate": "2026-04-12T02:24:58Z",
   "pending": [],
   "eras": [
     {
@@ -989,6 +989,51 @@
         "commits": 10,
         "dayRange": "Days 46-47",
         "dateRange": "Apr 9, 2026 - Apr 10, 2026",
+        "highlights": 2
+      },
+      "trailPosition": 0
+    },
+    {
+      "id": "consulting-declutter",
+      "title": "Consulting Declutter",
+      "subtitle": "Post-Split Code Purification",
+      "description": "Base camp was thoroughly cleansed after the great separation, with all consulting code artifacts systematically removed and documentation updated. A streamlined path forward emerged from the decluttered codebase.",
+      "changes": [
+        {
+          "text": "Stripped all consulting-related UI components, handlers, and login paths",
+          "category": "infrastructure",
+          "notable": true
+        },
+        {
+          "text": "Removed dead configuration files and orphaned code artifacts",
+          "category": "quality",
+          "notable": false
+        },
+        {
+          "text": "Archived consulting specifications and updated core documentation",
+          "category": "infrastructure",
+          "notable": true
+        },
+        {
+          "text": "Updated test suite to reflect consulting code removal",
+          "category": "quality",
+          "notable": false
+        },
+        {
+          "text": "Added Consulting link to sidebar for external navigation",
+          "category": "feature",
+          "notable": false
+        },
+        {
+          "text": "Migrated client files to Mycel and refreshed development metrics",
+          "category": "infrastructure",
+          "notable": false
+        }
+      ],
+      "stats": {
+        "commits": 10,
+        "dayRange": "Days 48-49",
+        "dateRange": "Apr 10, 2026 - Apr 11, 2026",
         "highlights": 2
       },
       "trailPosition": 0
