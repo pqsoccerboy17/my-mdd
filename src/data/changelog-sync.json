@@ -1,7 +1,20 @@
 {
-  "lastSyncedSha": "dacb11361eefdffecca121d90a67f955225abbea",
-  "lastSyncedDate": "2026-04-12T02:24:58Z",
-  "pending": [],
+  "lastSyncedSha": "17806fb62e40244e72f5239b37b7c154a6472408",
+  "lastSyncedDate": "2026-04-24T00:37:37Z",
+  "pending": [
+    {
+      "sha": "7ff178f0f9790061ec9768ea666c7bf16d6a4fd6",
+      "message": "chore: record Mycel session 64 (Say/Do V1 live-shape fixes)\n\n6 commits, +2181/-50 lines, 195->204 tests, 2 real commitments extracted\nand approved to HubSpot Tasks after fixing 5 MCP-contract blockers.\n\nCo-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>",
+      "date": "2026-04-23T12:54:34Z",
+      "day": 61
+    },
+    {
+      "sha": "17806fb62e40244e72f5239b37b7c154a6472408",
+      "message": "chore(dev-metrics): session 64 eurazeo-hackathon site build + 3 harness runs",
+      "date": "2026-04-24T00:37:37Z",
+      "day": 61
+    }
+  ],
   "eras": [
     {
       "id": "enterprise-foundation",
